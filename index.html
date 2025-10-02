@@ -787,53 +787,34 @@
 			// Функция для фильтрации числовых данных
 			function filterNumericData(data) {
 				return data.filter(row => {
-					// Проверяем, что в строке есть хотя бы одно числовое значение
-					let hasNumeric = false
 					let hasNonEmpty = false
-
 					for (let cell of row) {
 						if (cell !== undefined && cell !== null && cell !== '') {
 							hasNonEmpty = true
 							const strVal = String(cell).trim()
-							if (
-								strVal !== '' &&
-								!isNaN(parseFloat(strVal)) &&
-								isFinite(parseFloat(strVal))
-							) {
-								hasNumeric = true
+							if (strVal === '' || isNaN(parseFloat(strVal)) || !isFinite(parseFloat(strVal))) {
+								return false
 							}
 						}
 					}
-
-					// Возвращаем строки, которые имеют хотя бы одно числовое значение
-					// или полностью пустые строки (если нужно их показывать)
-					return hasNumeric || !hasNonEmpty
+					return hasNonEmpty
 				})
 			}
 
 			// Функция для фильтрации текстовых данных
 			function filterTextData(data) {
 				return data.filter(row => {
-					// Проверяем, что в строке есть хотя бы одно текстовое значение
-					let hasText = false
 					let hasNonEmpty = false
-
 					for (let cell of row) {
 						if (cell !== undefined && cell !== null && cell !== '') {
 							hasNonEmpty = true
 							const strVal = String(cell).trim()
-							if (
-								strVal !== '' &&
-								(isNaN(parseFloat(strVal)) || !isFinite(parseFloat(strVal)))
-							) {
-								hasText = true
+							if (strVal !== '' && !isNaN(parseFloat(strVal)) && isFinite(parseFloat(strVal))) {
+								return false
 							}
 						}
 					}
-
-					// Возвращаем строки, которые имеют хотя бы одно текстовое значение
-					// или полностью пустые строки (если нужно их показывать)
-					return hasText || !hasNonEmpty
+					return hasNonEmpty
 				})
 			}
 
@@ -1533,7 +1514,7 @@
 				}
 
 				try {
-					const response = await fetch('data1.xlsx')
+					const response = await fetch('data-60662-2025-09-18.xlsx')
 
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`)
